@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
-    <persistence-unit name="NewPersistenceUnit">
+    <persistence-unit name="HIBERNATE_PERSISTENCE" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>by.bsuir.pizzeria.beans.ClientEntity</class>
         <class>by.bsuir.pizzeria.beans.DrinkablesEntity</class>
         <class>by.bsuir.pizzeria.beans.DrinkablesSizedrinkablesEntity</class>
@@ -29,14 +30,21 @@
         <class>by.bsuir.pizzeria.beans.YourselfpizzaPastryEntity</class>
         <class>by.bsuir.pizzeria.beans.YourselfpizzaSizepizzaEntity</class>
         <properties>
-            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/pizzeria"/>
-            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pizzeria"/>
-            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/pizzeria"/>
-            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
-            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/pizzeria"/>
-            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--<property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/pizzeria"/>-->
+            <!--<property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>-->
+            <!--<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pizzeria"/>-->
+            <!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
+            <!--<property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/pizzeria"/>-->
+            <!--<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>-->
+            <!--<property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/pizzeria"/>-->
+            <!--<property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>-->
+
+            <!--<property name="hibernate.show_sql" value="true"/>-->
+            <!--<property name="hibernate.format_sql" value="true"/>-->
+            <!--<property name="hibernate.use_sql_comments" value="true"/>-->
         </properties>
     </persistence-unit>
 </persistence>

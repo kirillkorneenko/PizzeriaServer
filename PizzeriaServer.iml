@@ -40,7 +40,7 @@
           <factory-entry name="Entities" value="9ce8d404-1226-4abf-9c81-e144e67674cd" />
           <factory-entry name="NewPersistenceUnit" value="9ce8d404-1226-4abf-9c81-e144e67674cd" />
         </datasource-mapping>
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/java/META-INF/persistence.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
   </component>
