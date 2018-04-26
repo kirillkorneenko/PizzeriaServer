@@ -2,7 +2,6 @@ package by.bsuir.pizzeria.beans.pizza;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "order_pizza", schema = "pizzeria", catalog = "")
@@ -11,12 +10,14 @@ public class OrderPizza {
     private Long idOrder;
     private Long idPizza;
     private Integer quantity;
-    private Order orderByIdOrder;
+
+    private Orders orderByIdOrders;
     private Pizza pizzaByIdPizza;
-    private List<OrderPizzaPastry> orderPizzaPastriesById;
     private List<OrderPizzaSizepizza> orderPizzaSizepizzasById;
+    private List<Pastry> pastries;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -60,31 +61,38 @@ public class OrderPizza {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         OrderPizza that = (OrderPizza) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(idOrder, that.idOrder) &&
-                Objects.equals(idPizza, that.idPizza) &&
-                Objects.equals(quantity, that.quantity);
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (idOrder != null ? !idOrder.equals(that.idOrder) : that.idOrder != null) return false;
+        if (idPizza != null ? !idPizza.equals(that.idPizza) : that.idPizza != null) return false;
+        if (quantity != null ? !quantity.equals(that.quantity) : that.quantity != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, idOrder, idPizza, quantity);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (idOrder != null ? idOrder.hashCode() : 0);
+        result = 31 * result + (idPizza != null ? idPizza.hashCode() : 0);
+        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = false)
-    public Order getOrderByIdOrder() {
-        return orderByIdOrder;
+    @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public Orders getOrderByIdOrders() {
+        return orderByIdOrders;
     }
 
-    public void setOrderByIdOrder(Order orderByIdOrder) {
-        this.orderByIdOrder = orderByIdOrder;
+    public void setOrderByIdOrders(Orders orderByIdOrders) {
+        this.orderByIdOrders = orderByIdOrders;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idPizza", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idPizza", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public Pizza getPizzaByIdPizza() {
         return pizzaByIdPizza;
     }
@@ -94,20 +102,23 @@ public class OrderPizza {
     }
 
     @OneToMany(mappedBy = "orderPizzaByIdOrderPizza")
-    public List<OrderPizzaPastry> getOrderPizzaPastriesById() {
-        return orderPizzaPastriesById;
-    }
-
-    public void setOrderPizzaPastriesById(List<OrderPizzaPastry> orderPizzaPastriesById) {
-        this.orderPizzaPastriesById = orderPizzaPastriesById;
-    }
-
-    @OneToMany(mappedBy = "orderPizzaByIdOrderPizza")
     public List<OrderPizzaSizepizza> getOrderPizzaSizepizzasById() {
         return orderPizzaSizepizzasById;
     }
 
     public void setOrderPizzaSizepizzasById(List<OrderPizzaSizepizza> orderPizzaSizepizzasById) {
         this.orderPizzaSizepizzasById = orderPizzaSizepizzasById;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="order_pizza_pastry",
+            joinColumns={@JoinColumn(name="idOrderPizza")},
+            inverseJoinColumns={@JoinColumn(name="idPastry")})
+    public List<Pastry> getPastries() {
+        return pastries;
+    }
+
+    public void setPastries(List<Pastry> pastries) {
+        this.pastries = pastries;
     }
 }

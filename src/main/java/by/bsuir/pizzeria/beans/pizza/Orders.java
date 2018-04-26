@@ -2,28 +2,27 @@ package by.bsuir.pizzeria.beans.pizza;
 
 import by.bsuir.pizzeria.beans.additionalProducts.OrderDrinkables;
 import by.bsuir.pizzeria.beans.additionalProducts.OrderSauce;
-import by.bsuir.pizzeria.beans.users.Client;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Order {
+public class Orders {
     private Long id;
     private Long idClient;
     private String address;
-    private Time orderTime;
-    private Time cookingTime;
+    private String orderTime;
+    private String cookingTime;
     private String comment;
     private Double totalPrice;
-    private Client clientByIdClient;
     private List<OrderDrinkables> orderDrinkablesById;
     private List<OrderPizza> orderPizzasById;
     private List<OrderSauce> orderSaucesById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -55,21 +54,21 @@ public class Order {
 
     @Basic
     @Column(name = "orderTime", nullable = false)
-    public Time getOrderTime() {
+    public String getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Time orderTime) {
+    public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
     }
 
     @Basic
     @Column(name = "cookingTime", nullable = true)
-    public Time getCookingTime() {
+    public String getCookingTime() {
         return cookingTime;
     }
 
-    public void setCookingTime(Time cookingTime) {
+    public void setCookingTime(String cookingTime) {
         this.cookingTime = cookingTime;
     }
 
@@ -97,33 +96,33 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id) &&
-                Objects.equals(idClient, order.idClient) &&
-                Objects.equals(address, order.address) &&
-                Objects.equals(orderTime, order.orderTime) &&
-                Objects.equals(cookingTime, order.cookingTime) &&
-                Objects.equals(comment, order.comment) &&
-                Objects.equals(totalPrice, order.totalPrice);
+
+        Orders orders = (Orders) o;
+
+        if (id != null ? !id.equals(orders.id) : orders.id != null) return false;
+        if (idClient != null ? !idClient.equals(orders.idClient) : orders.idClient != null) return false;
+        if (address != null ? !address.equals(orders.address) : orders.address != null) return false;
+        if (orderTime != null ? !orderTime.equals(orders.orderTime) : orders.orderTime != null) return false;
+        if (cookingTime != null ? !cookingTime.equals(orders.cookingTime) : orders.cookingTime != null) return false;
+        if (comment != null ? !comment.equals(orders.comment) : orders.comment != null) return false;
+        if (totalPrice != null ? !totalPrice.equals(orders.totalPrice) : orders.totalPrice != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, idClient, address, orderTime, cookingTime, comment, totalPrice);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (idClient != null ? idClient.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (orderTime != null ? orderTime.hashCode() : 0);
+        result = 31 * result + (cookingTime != null ? cookingTime.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
+        return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "idClient", referencedColumnName = "id", nullable = false)
-    public Client getClientByIdClient() {
-        return clientByIdClient;
-    }
-
-    public void setClientByIdClient(Client clientByIdClient) {
-        this.clientByIdClient = clientByIdClient;
-    }
-
-    @OneToMany(mappedBy = "orderByIdOrder")
+    @OneToMany(mappedBy = "orderByIdOrders")
     public List<OrderDrinkables> getOrderDrinkablesById() {
         return orderDrinkablesById;
     }
@@ -132,7 +131,7 @@ public class Order {
         this.orderDrinkablesById = orderDrinkablesById;
     }
 
-    @OneToMany(mappedBy = "orderByIdOrder")
+    @OneToMany(mappedBy = "orderByIdOrders")
     public List<OrderPizza> getOrderPizzasById() {
         return orderPizzasById;
     }
@@ -141,7 +140,7 @@ public class Order {
         this.orderPizzasById = orderPizzasById;
     }
 
-    @OneToMany(mappedBy = "orderByIdOrder")
+    @OneToMany(mappedBy = "orderByIdOrders")
     public List<OrderSauce> getOrderSaucesById() {
         return orderSaucesById;
     }

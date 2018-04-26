@@ -3,7 +3,6 @@ package by.bsuir.pizzeria.beans.users;
 import by.bsuir.pizzeria.beans.pizza.Pizza;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Reviews {
@@ -11,10 +10,10 @@ public class Reviews {
     private Long idClient;
     private Long idPizza;
     private String text;
-    private Client clientByIdClient;
     private Pizza pizzaByIdPizza;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -58,31 +57,28 @@ public class Reviews {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Reviews reviews = (Reviews) o;
-        return Objects.equals(id, reviews.id) &&
-                Objects.equals(idClient, reviews.idClient) &&
-                Objects.equals(idPizza, reviews.idPizza) &&
-                Objects.equals(text, reviews.text);
+
+        if (id != null ? !id.equals(reviews.id) : reviews.id != null) return false;
+        if (idClient != null ? !idClient.equals(reviews.idClient) : reviews.idClient != null) return false;
+        if (idPizza != null ? !idPizza.equals(reviews.idPizza) : reviews.idPizza != null) return false;
+        if (text != null ? !text.equals(reviews.text) : reviews.text != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, idClient, idPizza, text);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (idClient != null ? idClient.hashCode() : 0);
+        result = 31 * result + (idPizza != null ? idPizza.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idClient", referencedColumnName = "id", nullable = false)
-    public Client getClientByIdClient() {
-        return clientByIdClient;
-    }
-
-    public void setClientByIdClient(Client clientByIdClient) {
-        this.clientByIdClient = clientByIdClient;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idPizza", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idPizza", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public Pizza getPizzaByIdPizza() {
         return pizzaByIdPizza;
     }

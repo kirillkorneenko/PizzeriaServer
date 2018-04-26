@@ -2,17 +2,16 @@ package by.bsuir.pizzeria.beans.additionalProducts;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Drinkables {
     private Long id;
     private String name;
-
     private List<DrinkablesSizedrinkables> drinkablesSizedrinkablesById;
     private List<OrderDrinkables> orderDrinkablesById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -36,15 +35,20 @@ public class Drinkables {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Drinkables that = (Drinkables) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 
     @OneToMany(mappedBy = "drinkablesByIdDrinkables")

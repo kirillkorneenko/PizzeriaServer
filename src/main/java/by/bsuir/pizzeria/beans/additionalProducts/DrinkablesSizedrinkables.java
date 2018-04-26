@@ -1,7 +1,6 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "drinkables_sizedrinkables", schema = "pizzeria", catalog = "")
@@ -10,10 +9,12 @@ public class DrinkablesSizedrinkables {
     private Long idDrinkables;
     private Long idSizeDrinkables;
     private Double price;
+
     private Drinkables drinkablesByIdDrinkables;
     private Sizedrinkables sizedrinkablesByIdSizeDrinkables;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -57,21 +58,29 @@ public class DrinkablesSizedrinkables {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         DrinkablesSizedrinkables that = (DrinkablesSizedrinkables) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(idDrinkables, that.idDrinkables) &&
-                Objects.equals(idSizeDrinkables, that.idSizeDrinkables) &&
-                Objects.equals(price, that.price);
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (idDrinkables != null ? !idDrinkables.equals(that.idDrinkables) : that.idDrinkables != null) return false;
+        if (idSizeDrinkables != null ? !idSizeDrinkables.equals(that.idSizeDrinkables) : that.idSizeDrinkables != null)
+            return false;
+        if (price != null ? !price.equals(that.price) : that.price != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, idDrinkables, idSizeDrinkables, price);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (idDrinkables != null ? idDrinkables.hashCode() : 0);
+        result = 31 * result + (idSizeDrinkables != null ? idSizeDrinkables.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idDrinkables", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idDrinkables", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public Drinkables getDrinkablesByIdDrinkables() {
         return drinkablesByIdDrinkables;
     }
@@ -81,7 +90,7 @@ public class DrinkablesSizedrinkables {
     }
 
     @ManyToOne
-    @JoinColumn(name = "idSizeDrinkables", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idSizeDrinkables", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public Sizedrinkables getSizedrinkablesByIdSizeDrinkables() {
         return sizedrinkablesByIdSizeDrinkables;
     }

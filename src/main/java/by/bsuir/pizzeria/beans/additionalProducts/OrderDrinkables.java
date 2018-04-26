@@ -1,9 +1,8 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
-import by.bsuir.pizzeria.beans.pizza.Order;
+import by.bsuir.pizzeria.beans.pizza.Orders;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "order_drinkables", schema = "pizzeria", catalog = "")
@@ -12,10 +11,11 @@ public class OrderDrinkables {
     private Long idOrder;
     private Long idDrinkables;
     private Integer quantity;
-    private Order orderByIdOrder;
+    private Orders orderByIdOrders;
     private Drinkables drinkablesByIdDrinkables;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -59,31 +59,38 @@ public class OrderDrinkables {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         OrderDrinkables that = (OrderDrinkables) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(idOrder, that.idOrder) &&
-                Objects.equals(idDrinkables, that.idDrinkables) &&
-                Objects.equals(quantity, that.quantity);
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (idOrder != null ? !idOrder.equals(that.idOrder) : that.idOrder != null) return false;
+        if (idDrinkables != null ? !idDrinkables.equals(that.idDrinkables) : that.idDrinkables != null) return false;
+        if (quantity != null ? !quantity.equals(that.quantity) : that.quantity != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, idOrder, idDrinkables, quantity);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (idOrder != null ? idOrder.hashCode() : 0);
+        result = 31 * result + (idDrinkables != null ? idDrinkables.hashCode() : 0);
+        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = false)
-    public Order getOrderByIdOrder() {
-        return orderByIdOrder;
+    @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public Orders getOrderByIdOrders() {
+        return orderByIdOrders;
     }
 
-    public void setOrderByIdOrder(Order orderByIdOrder) {
-        this.orderByIdOrder = orderByIdOrder;
+    public void setOrderByIdOrders(Orders orderByIdOrders) {
+        this.orderByIdOrders = orderByIdOrders;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idDrinkables", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idDrinkables", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public Drinkables getDrinkablesByIdDrinkables() {
         return drinkablesByIdDrinkables;
     }

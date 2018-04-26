@@ -2,7 +2,6 @@ package by.bsuir.pizzeria.beans.additionalProducts;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Sauce {
@@ -12,6 +11,7 @@ public class Sauce {
     private List<OrderSauce> orderSaucesById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -45,16 +45,22 @@ public class Sauce {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Sauce sauce = (Sauce) o;
-        return Objects.equals(id, sauce.id) &&
-                Objects.equals(name, sauce.name) &&
-                Objects.equals(price, sauce.price);
+
+        if (id != null ? !id.equals(sauce.id) : sauce.id != null) return false;
+        if (name != null ? !name.equals(sauce.name) : sauce.name != null) return false;
+        if (price != null ? !price.equals(sauce.price) : sauce.price != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, price);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        return result;
     }
 
     @OneToMany(mappedBy = "sauceByIdSauce")

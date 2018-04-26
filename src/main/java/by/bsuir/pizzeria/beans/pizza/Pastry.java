@@ -2,15 +2,14 @@ package by.bsuir.pizzeria.beans.pizza;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Pastry {
     private Long id;
     private String kind;
-    private List<OrderPizzaPastry> orderPizzaPastriesById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -34,23 +33,22 @@ public class Pastry {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Pastry pastry = (Pastry) o;
-        return Objects.equals(id, pastry.id) &&
-                Objects.equals(kind, pastry.kind);
+
+        if (id != null ? !id.equals(pastry.id) : pastry.id != null) return false;
+        if (kind != null ? !kind.equals(pastry.kind) : pastry.kind != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, kind);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (kind != null ? kind.hashCode() : 0);
+        return result;
     }
 
-    @OneToMany(mappedBy = "pastryByIdPastry")
-    public List<OrderPizzaPastry> getOrderPizzaPastriesById() {
-        return orderPizzaPastriesById;
-    }
 
-    public void setOrderPizzaPastriesById(List<OrderPizzaPastry> orderPizzaPastriesById) {
-        this.orderPizzaPastriesById = orderPizzaPastriesById;
-    }
+
 }

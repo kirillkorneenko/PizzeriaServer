@@ -3,8 +3,8 @@ package by.bsuir.pizzeria.beans.pizza;
 import by.bsuir.pizzeria.beans.users.Reviews;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Pizza {
@@ -12,14 +12,12 @@ public class Pizza {
     private String name;
     private Double caloricity;
     private Double price;
-
-    private List<OrderPizza> orderPizzasById;
-    private List<Reviews> reviewsById;
-
+    private Collection<OrderPizza> orderPizzasById;
+    private Collection<Reviews> reviewsById;
     private List<Ingredients> ingredients;
-    private List<Sales> sales;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -63,43 +61,48 @@ public class Pizza {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Pizza pizza = (Pizza) o;
-        return Objects.equals(id, pizza.id) &&
-                Objects.equals(name, pizza.name) &&
-                Objects.equals(caloricity, pizza.caloricity) &&
-                Objects.equals(price, pizza.price);
+
+        if (id != null ? !id.equals(pizza.id) : pizza.id != null) return false;
+        if (name != null ? !name.equals(pizza.name) : pizza.name != null) return false;
+        if (caloricity != null ? !caloricity.equals(pizza.caloricity) : pizza.caloricity != null) return false;
+        if (price != null ? !price.equals(pizza.price) : pizza.price != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, caloricity, price);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (caloricity != null ? caloricity.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        return result;
     }
 
     @OneToMany(mappedBy = "pizzaByIdPizza")
-    public List<OrderPizza> getOrderPizzasById() {
+    public Collection<OrderPizza> getOrderPizzasById() {
         return orderPizzasById;
     }
 
-    public void setOrderPizzasById(List<OrderPizza> orderPizzasById) {
+    public void setOrderPizzasById(Collection<OrderPizza> orderPizzasById) {
         this.orderPizzasById = orderPizzasById;
     }
 
-
     @OneToMany(mappedBy = "pizzaByIdPizza")
-    public List<Reviews> getReviewsById() {
+    public Collection<Reviews> getReviewsById() {
         return reviewsById;
     }
 
-    public void setReviewsById(List<Reviews> reviewsById) {
+    public void setReviewsById(Collection<Reviews> reviewsById) {
         this.reviewsById = reviewsById;
     }
 
-
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "pizza_ingredients",
-            joinColumns = @JoinColumn(name = "idPizza"),
-            inverseJoinColumns = @JoinColumn(name = "idIngredients"))
+    @JoinTable(name="pizza_ingredients",
+            joinColumns={@JoinColumn(name="idPizza")},
+            inverseJoinColumns={@JoinColumn(name="idIngredients")})
     public List<Ingredients> getIngredients() {
         return ingredients;
     }
@@ -108,15 +111,5 @@ public class Pizza {
         this.ingredients = ingredients;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "sales_pizza",
-            joinColumns = @JoinColumn(name = "idPizza"),
-            inverseJoinColumns = @JoinColumn(name = "idSales"))
-    public List<Sales> getSales() {
-        return sales;
-    }
 
-    public void setSales(List<Sales> sales) {
-        this.sales = sales;
-    }
 }

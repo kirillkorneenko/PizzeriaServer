@@ -1,10 +1,10 @@
 package by.bsuir.pizzeria.dao.pizza;
 
-import by.bsuir.pizzeria.beans.pizza.SizePizza;
+import by.bsuir.pizzeria.beans.pizza.Sizepizza;
 
 public interface SizePizzaDao {
-    void persist( SizePizza sizePizza);
-    SizePizza getByKey(Long id);
-    void update( SizePizza sizePizza);
-    void delete( SizePizza sizePizza);
+    void persist( Sizepizza sizePizza);
+    Sizepizza getByKey(Long id);
+    void update( Sizepizza sizePizza);
+    void delete( Sizepizza sizePizza);
 }

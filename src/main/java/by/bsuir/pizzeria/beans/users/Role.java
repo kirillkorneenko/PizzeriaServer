@@ -1,17 +1,16 @@
 package by.bsuir.pizzeria.beans.users;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.util.Collection;
 
 @Entity
 public class Role {
     private Long id;
-    private Long name;
-
-    private List<User> usersById;
+    private String name;
+    private Collection<User> usersById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -22,12 +21,12 @@ public class Role {
     }
 
     @Basic
-    @Column(name = "name", nullable = false)
-    public Long getName() {
+    @Column(name = "name", nullable = false, length = 50)
+    public String getName() {
         return name;
     }
 
-    public void setName(Long name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -35,23 +34,28 @@ public class Role {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Role role = (Role) o;
-        return Objects.equals(id, role.id) &&
-                Objects.equals(name, role.name);
+
+        if (id != null ? !id.equals(role.id) : role.id != null) return false;
+        if (name != null ? !name.equals(role.name) : role.name != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 
     @OneToMany(mappedBy = "roleByIdRole")
-    public List<User> getUsersById() {
+    public Collection<User> getUsersById() {
         return usersById;
     }
 
-    public void setUsersById(List<User> usersById) {
+    public void setUsersById(Collection<User> usersById) {
         this.usersById = usersById;
     }
 }

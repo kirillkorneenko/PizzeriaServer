@@ -1,7 +1,6 @@
 package by.bsuir.pizzeria.dao.additionalProducts;
 
 import by.bsuir.pizzeria.beans.additionalProducts.OrderSauce;
-import by.bsuir.pizzeria.beans.pizza.Order;
 
 public interface OrderSauceDao {
 

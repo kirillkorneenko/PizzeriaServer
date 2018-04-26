@@ -2,16 +2,16 @@ package by.bsuir.pizzeria.beans.pizza;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Sales {
     private Long id;
     private Integer percent;
     private String description;
-    private List<Pizza> pizzasForSales;
+    private List<Pizza> pizzas;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -45,27 +45,33 @@ public class Sales {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Sales sales = (Sales) o;
-        return Objects.equals(id, sales.id) &&
-                Objects.equals(percent, sales.percent) &&
-                Objects.equals(description, sales.description);
+
+        if (id != null ? !id.equals(sales.id) : sales.id != null) return false;
+        if (percent != null ? !percent.equals(sales.percent) : sales.percent != null) return false;
+        if (description != null ? !description.equals(sales.description) : sales.description != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, percent, description);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (percent != null ? percent.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "sales_pizza",
-            joinColumns = @JoinColumn(name = "idSales"),
-            inverseJoinColumns = @JoinColumn(name = "idPizza"))
-    public List<Pizza> getPizzasForSales() {
-        return pizzasForSales;
+    @JoinTable(name="sales_pizza",
+            joinColumns={@JoinColumn(name="idSales")},
+            inverseJoinColumns={@JoinColumn(name="idPizza")})
+    public List<Pizza> getPizzas() {
+        return pizzas;
     }
 
-    public void setPizzasForSales(List<Pizza> pizzasForSales) {
-        this.pizzasForSales = pizzasForSales;
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
     }
 }
