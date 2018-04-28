@@ -7,6 +7,8 @@ import java.util.List;
 public class Sauce {
     private Long id;
     private String name;
+    private String description;
+    private String urlImg;
     private Double price;
     private List<OrderSauce> orderSaucesById;
 
@@ -39,6 +41,27 @@ public class Sauce {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+
+    @Basic
+    @Column(name = "description", nullable = false, length = -1)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Basic
+    @Column(name = "urlImg", nullable = false, length = 50)
+    public String getUrlImg() {
+        return urlImg;
+    }
+
+    public void setUrlImg(String urlImg) {
+        this.urlImg = urlImg;
     }
 
     @Override

@@ -12,6 +12,8 @@ public class Pizza {
     private String name;
     private Double caloricity;
     private Double price;
+    private String description;
+    private String urlImg;
     private Collection<OrderPizza> orderPizzasById;
     private Collection<Reviews> reviewsById;
     private List<Ingredients> ingredients;
@@ -55,6 +57,26 @@ public class Pizza {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    @Basic
+    @Column(name = "description", nullable = false, length = -1)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Basic
+    @Column(name = "urlImg", nullable = false, length = 50)
+    public String getUrlImg() {
+        return urlImg;
+    }
+
+    public void setUrlImg(String urlImg) {
+        this.urlImg = urlImg;
     }
 
     @Override

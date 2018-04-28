@@ -2,11 +2,15 @@ package by.bsuir.pizzeria.beans.additionalProducts;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Drinkables {
     private Long id;
     private String name;
+    private String description;
+    private Double price;
+    private String urlImg;
     private List<DrinkablesSizedrinkables> drinkablesSizedrinkablesById;
     private List<OrderDrinkables> orderDrinkablesById;
 
@@ -31,24 +35,55 @@ public class Drinkables {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "description", nullable = false, length = -1)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Basic
+    @Column(name = "price", nullable = false, precision = 0)
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    @Basic
+    @Column(name = "urlImg", nullable = false, length = 50)
+    public String getUrlImg() {
+        return urlImg;
+    }
+
+    public void setUrlImg(String urlImg) {
+        this.urlImg = urlImg;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Drinkables that = (Drinkables) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-
-        return true;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(urlImg, that.urlImg) &&
+                Objects.equals(drinkablesSizedrinkablesById, that.drinkablesSizedrinkablesById) &&
+                Objects.equals(orderDrinkablesById, that.orderDrinkablesById);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, description, price, urlImg, drinkablesSizedrinkablesById, orderDrinkablesById);
     }
 
     @OneToMany(mappedBy = "drinkablesByIdDrinkables")
