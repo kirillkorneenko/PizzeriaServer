@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -75,18 +77,17 @@ public class Drinkables {
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(price, that.price) &&
-                Objects.equals(urlImg, that.urlImg) &&
-                Objects.equals(drinkablesSizedrinkablesById, that.drinkablesSizedrinkablesById) &&
-                Objects.equals(orderDrinkablesById, that.orderDrinkablesById);
+                Objects.equals(urlImg, that.urlImg);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, price, urlImg, drinkablesSizedrinkablesById, orderDrinkablesById);
+        return Objects.hash(id, name, description, price, urlImg);
     }
 
     @OneToMany(mappedBy = "drinkablesByIdDrinkables")
+    @JsonIgnore
     public List<DrinkablesSizedrinkables> getDrinkablesSizedrinkablesById() {
         return drinkablesSizedrinkablesById;
     }
@@ -96,6 +97,7 @@ public class Drinkables {
     }
 
     @OneToMany(mappedBy = "drinkablesByIdDrinkables")
+    @JsonIgnore
     public List<OrderDrinkables> getOrderDrinkablesById() {
         return orderDrinkablesById;
     }

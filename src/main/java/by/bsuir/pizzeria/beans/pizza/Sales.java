@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -67,6 +69,7 @@ public class Sales {
     @JoinTable(name="sales_pizza",
             joinColumns={@JoinColumn(name="idSales")},
             inverseJoinColumns={@JoinColumn(name="idPizza")})
+    @JsonIgnore
     public List<Pizza> getPizzas() {
         return pizzas;
     }

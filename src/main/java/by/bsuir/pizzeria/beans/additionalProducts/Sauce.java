@@ -1,7 +1,10 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Sauce {
@@ -55,7 +58,7 @@ public class Sauce {
     }
 
     @Basic
-    @Column(name = "urlImg", nullable = false, length = 50)
+    @Column(name = "urlImg", nullable = false, length = 255)
     public String getUrlImg() {
         return urlImg;
     }
@@ -68,25 +71,22 @@ public class Sauce {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Sauce sauce = (Sauce) o;
-
-        if (id != null ? !id.equals(sauce.id) : sauce.id != null) return false;
-        if (name != null ? !name.equals(sauce.name) : sauce.name != null) return false;
-        if (price != null ? !price.equals(sauce.price) : sauce.price != null) return false;
-
-        return true;
+        return Objects.equals(id, sauce.id) &&
+                Objects.equals(name, sauce.name) &&
+                Objects.equals(description, sauce.description) &&
+                Objects.equals(urlImg, sauce.urlImg) &&
+                Objects.equals(price, sauce.price);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, description, urlImg, price);
     }
 
     @OneToMany(mappedBy = "sauceByIdSauce")
+    @JsonIgnore
     public List<OrderSauce> getOrderSaucesById() {
         return orderSaucesById;
     }

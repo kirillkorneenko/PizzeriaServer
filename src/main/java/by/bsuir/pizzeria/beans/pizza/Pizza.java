@@ -1,10 +1,12 @@
 package by.bsuir.pizzeria.beans.pizza;
 
 import by.bsuir.pizzeria.beans.users.Reviews;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Pizza {
@@ -83,27 +85,23 @@ public class Pizza {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Pizza pizza = (Pizza) o;
-
-        if (id != null ? !id.equals(pizza.id) : pizza.id != null) return false;
-        if (name != null ? !name.equals(pizza.name) : pizza.name != null) return false;
-        if (caloricity != null ? !caloricity.equals(pizza.caloricity) : pizza.caloricity != null) return false;
-        if (price != null ? !price.equals(pizza.price) : pizza.price != null) return false;
-
-        return true;
+        return Objects.equals(id, pizza.id) &&
+                Objects.equals(name, pizza.name) &&
+                Objects.equals(caloricity, pizza.caloricity) &&
+                Objects.equals(price, pizza.price) &&
+                Objects.equals(description, pizza.description) &&
+                Objects.equals(urlImg, pizza.urlImg);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (caloricity != null ? caloricity.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, caloricity, price, description, urlImg);
     }
 
     @OneToMany(mappedBy = "pizzaByIdPizza")
+    @JsonIgnore
     public Collection<OrderPizza> getOrderPizzasById() {
         return orderPizzasById;
     }
@@ -113,6 +111,7 @@ public class Pizza {
     }
 
     @OneToMany(mappedBy = "pizzaByIdPizza")
+    @JsonIgnore
     public Collection<Reviews> getReviewsById() {
         return reviewsById;
     }

@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -83,6 +85,7 @@ public class OrderPizza {
 
     @ManyToOne
     @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Orders getOrderByIdOrders() {
         return orderByIdOrders;
     }
@@ -93,6 +96,7 @@ public class OrderPizza {
 
     @ManyToOne
     @JoinColumn(name = "idPizza", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Pizza getPizzaByIdPizza() {
         return pizzaByIdPizza;
     }
@@ -102,6 +106,7 @@ public class OrderPizza {
     }
 
     @OneToMany(mappedBy = "orderPizzaByIdOrderPizza")
+    @JsonIgnore
     public List<OrderPizzaSizepizza> getOrderPizzaSizepizzasById() {
         return orderPizzaSizepizzasById;
     }
@@ -114,6 +119,7 @@ public class OrderPizza {
     @JoinTable(name="order_pizza_pastry",
             joinColumns={@JoinColumn(name="idOrderPizza")},
             inverseJoinColumns={@JoinColumn(name="idPastry")})
+    @JsonIgnore
     public List<Pastry> getPastries() {
         return pastries;
     }

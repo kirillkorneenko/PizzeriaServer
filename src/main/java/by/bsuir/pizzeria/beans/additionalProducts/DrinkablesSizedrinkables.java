@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -81,6 +83,7 @@ public class DrinkablesSizedrinkables {
 
     @ManyToOne
     @JoinColumn(name = "idDrinkables", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Drinkables getDrinkablesByIdDrinkables() {
         return drinkablesByIdDrinkables;
     }
@@ -91,6 +94,7 @@ public class DrinkablesSizedrinkables {
 
     @ManyToOne
     @JoinColumn(name = "idSizeDrinkables", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Sizedrinkables getSizedrinkablesByIdSizeDrinkables() {
         return sizedrinkablesByIdSizeDrinkables;
     }

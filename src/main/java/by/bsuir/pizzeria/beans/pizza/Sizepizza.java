@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -65,6 +67,7 @@ public class Sizepizza {
     }
 
     @OneToMany(mappedBy = "sizepizzaByIdSizePizza")
+    @JsonIgnore
     public Collection<OrderPizzaSizepizza> getOrderPizzaSizepizzasById() {
         return orderPizzaSizepizzasById;
     }

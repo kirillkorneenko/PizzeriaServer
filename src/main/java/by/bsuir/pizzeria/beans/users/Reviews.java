@@ -1,6 +1,7 @@
 package by.bsuir.pizzeria.beans.users;
 
 import by.bsuir.pizzeria.beans.pizza.Pizza;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -79,6 +80,7 @@ public class Reviews {
 
     @ManyToOne
     @JoinColumn(name = "idPizza", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Pizza getPizzaByIdPizza() {
         return pizzaByIdPizza;
     }

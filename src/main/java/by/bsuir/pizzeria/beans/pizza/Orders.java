@@ -2,6 +2,7 @@ package by.bsuir.pizzeria.beans.pizza;
 
 import by.bsuir.pizzeria.beans.additionalProducts.OrderDrinkables;
 import by.bsuir.pizzeria.beans.additionalProducts.OrderSauce;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -123,6 +124,7 @@ public class Orders {
     }
 
     @OneToMany(mappedBy = "orderByIdOrders")
+    @JsonIgnore
     public List<OrderDrinkables> getOrderDrinkablesById() {
         return orderDrinkablesById;
     }
@@ -132,6 +134,7 @@ public class Orders {
     }
 
     @OneToMany(mappedBy = "orderByIdOrders")
+    @JsonIgnore
     public List<OrderPizza> getOrderPizzasById() {
         return orderPizzasById;
     }
@@ -141,6 +144,7 @@ public class Orders {
     }
 
     @OneToMany(mappedBy = "orderByIdOrders")
+    @JsonIgnore
     public List<OrderSauce> getOrderSaucesById() {
         return orderSaucesById;
     }

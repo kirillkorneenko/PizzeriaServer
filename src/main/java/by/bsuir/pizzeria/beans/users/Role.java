@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -51,6 +53,7 @@ public class Role {
     }
 
     @OneToMany(mappedBy = "roleByIdRole")
+    @JsonIgnore
     public Collection<User> getUsersById() {
         return usersById;
     }

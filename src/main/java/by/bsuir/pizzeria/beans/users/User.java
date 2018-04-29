@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -135,6 +137,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "idRole", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Role getRoleByIdRole() {
         return roleByIdRole;
     }
@@ -144,6 +147,7 @@ public class User {
     }
 
     @OneToOne(mappedBy = "userById")
+    @JsonIgnore
     public Verificationtoken getVerificationtokenById() {
         return verificationtokenById;
     }

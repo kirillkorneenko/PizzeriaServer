@@ -1,6 +1,7 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
 import by.bsuir.pizzeria.beans.pizza.Orders;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -81,6 +82,7 @@ public class OrderSauce {
 
     @ManyToOne
     @JoinColumn(name = "idOrder", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Orders getOrderByIdOrders() {
         return orderByIdOrders;
     }
@@ -91,6 +93,7 @@ public class OrderSauce {
 
     @ManyToOne
     @JoinColumn(name = "idSauce", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     public Sauce getSauceByIdSauce() {
         return sauceByIdSauce;
     }

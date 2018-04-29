@@ -1,5 +1,7 @@
 package by.bsuir.pizzeria.beans.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -51,6 +53,7 @@ public class Verificationtoken {
 
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     public User getUserById() {
         return userById;
     }
