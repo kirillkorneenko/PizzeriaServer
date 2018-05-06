@@ -3,11 +3,13 @@ package by.bsuir.pizzeria.beans.users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Verificationtoken {
     private Long id;
     private String token;
+
     private User userById;
 
     @Id
@@ -35,20 +37,15 @@ public class Verificationtoken {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Verificationtoken that = (Verificationtoken) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (token != null ? !token.equals(that.token) : that.token != null) return false;
-
-        return true;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(token, that.token);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (token != null ? token.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, token);
     }
 
     @OneToOne

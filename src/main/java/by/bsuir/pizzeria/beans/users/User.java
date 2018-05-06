@@ -1,8 +1,10 @@
 package by.bsuir.pizzeria.beans.users;
 
+import by.bsuir.pizzeria.beans.order.Orders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,10 +14,13 @@ public class User {
     private String password;
     private String name;
     private String surname;
-    private String email;
     private String phone;
+    private String email;
     private String confirmation;
     private Long idRole;
+
+    private List<Orders> ordersById;
+    private List<Reviews> reviewsById;
 
     private Role roleByIdRole;
     private Verificationtoken verificationtokenById;
@@ -32,7 +37,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "login", nullable = false, length = 50)
+    @Column(name = "login", nullable = true, length = 50)
     public String getLogin() {
         return login;
     }
@@ -42,7 +47,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = true, length = 50)
     public String getPassword() {
         return password;
     }
@@ -72,16 +77,6 @@ public class User {
     }
 
     @Basic
-    @Column(name = "email", nullable = false, length = 50)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Basic
     @Column(name = "phone", nullable = false, length = 50)
     public String getPhone() {
         return phone;
@@ -92,7 +87,17 @@ public class User {
     }
 
     @Basic
-    @Column(name = "confirmation", nullable = false, length = 50)
+    @Column(name = "email", nullable = true, length = 50)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Basic
+    @Column(name = "confirmation", nullable = true, length = 50)
     public String getConfirmation() {
         return confirmation;
     }
@@ -102,7 +107,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "idRole", nullable = false)
+    @Column(name = "idRole", nullable = true)
     public Long getIdRole() {
         return idRole;
     }
@@ -121,18 +126,36 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
-                Objects.equals(email, user.email) &&
                 Objects.equals(phone, user.phone) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(confirmation, user.confirmation) &&
-                Objects.equals(idRole, user.idRole) &&
-                Objects.equals(roleByIdRole, user.roleByIdRole) &&
-                Objects.equals(verificationtokenById, user.verificationtokenById);
+                Objects.equals(idRole, user.idRole);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, login, password, name, surname, email, phone, confirmation, idRole, roleByIdRole, verificationtokenById);
+        return Objects.hash(id, login, password, name, surname, phone, email, confirmation, idRole);
+    }
+
+    @OneToMany(mappedBy = "userByIdClient")
+    @JsonIgnore
+    public List<Orders> getOrdersById() {
+        return ordersById;
+    }
+
+    public void setOrdersById(List<Orders> ordersById) {
+        this.ordersById = ordersById;
+    }
+
+    @OneToMany(mappedBy = "userByIdClient")
+    @JsonIgnore
+    public List<Reviews> getReviewsById() {
+        return reviewsById;
+    }
+
+    public void setReviewsById(List<Reviews> reviewsById) {
+        this.reviewsById = reviewsById;
     }
 
     @ManyToOne

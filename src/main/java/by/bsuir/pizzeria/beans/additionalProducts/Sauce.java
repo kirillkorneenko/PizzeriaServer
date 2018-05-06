@@ -1,5 +1,6 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
+import by.bsuir.pizzeria.beans.order.Orders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -10,10 +11,11 @@ import java.util.Objects;
 public class Sauce {
     private Long id;
     private String name;
-    private String description;
-    private String urlImg;
     private Double price;
-    private List<OrderSauce> orderSaucesById;
+    private String urlImg;
+    private String description;
+
+    private List<Orders> orders;
 
     @Id
     @GeneratedValue
@@ -46,6 +48,15 @@ public class Sauce {
         this.price = price;
     }
 
+    @Basic
+    @Column(name = "urlImg", nullable = false, length = 255)
+    public String getUrlImg() {
+        return urlImg;
+    }
+
+    public void setUrlImg(String urlImg) {
+        this.urlImg = urlImg;
+    }
 
     @Basic
     @Column(name = "description", nullable = false, length = -1)
@@ -57,16 +68,6 @@ public class Sauce {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "urlImg", nullable = false, length = 255)
-    public String getUrlImg() {
-        return urlImg;
-    }
-
-    public void setUrlImg(String urlImg) {
-        this.urlImg = urlImg;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,24 +75,27 @@ public class Sauce {
         Sauce sauce = (Sauce) o;
         return Objects.equals(id, sauce.id) &&
                 Objects.equals(name, sauce.name) &&
-                Objects.equals(description, sauce.description) &&
+                Objects.equals(price, sauce.price) &&
                 Objects.equals(urlImg, sauce.urlImg) &&
-                Objects.equals(price, sauce.price);
+                Objects.equals(description, sauce.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, urlImg, price);
+        return Objects.hash(id, name, price, urlImg, description);
     }
 
-    @OneToMany(mappedBy = "sauceByIdSauce")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="order_sauce",
+            joinColumns={@JoinColumn(name="idSauce")},
+            inverseJoinColumns={@JoinColumn(name="idOrder")})
     @JsonIgnore
-    public List<OrderSauce> getOrderSaucesById() {
-        return orderSaucesById;
+    public List<Orders> getOrders() {
+        return orders;
     }
 
-    public void setOrderSaucesById(List<OrderSauce> orderSaucesById) {
-        this.orderSaucesById = orderSaucesById;
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
     }
 }

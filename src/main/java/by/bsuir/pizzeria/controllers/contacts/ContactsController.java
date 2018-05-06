@@ -1,7 +1,7 @@
-package by.bsuir.pizzeria.webComponent.pizza;
+package by.bsuir.pizzeria.controllers.contacts;
 
-import by.bsuir.pizzeria.beans.pizza.Pizza;
-import by.bsuir.pizzeria.services.pizza.PizzaService;
+import by.bsuir.pizzeria.beans.pizza.Pizzeria;
+import by.bsuir.pizzeria.services.contacts.ContactsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,18 +12,18 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
-public class PizzaController {
+public class ContactsController {
 
-    private PizzaService pizzaService;
+    private ContactsService contactsService;
 
-    @GetMapping("/pizzas")
+    @GetMapping("/contacts")
     public ResponseEntity getDrinkablesAll(){
-        List<Pizza> list = pizzaService.getAll();
+        List<Pizzeria> list = contactsService.getAll();
         return ResponseEntity.ok().body(list);
     }
 
     @Autowired
-    public void setPizzaService(PizzaService pizzaService) {
-        this.pizzaService = pizzaService;
+    public void setContactsService(ContactsService contactsService) {
+        this.contactsService = contactsService;
     }
 }

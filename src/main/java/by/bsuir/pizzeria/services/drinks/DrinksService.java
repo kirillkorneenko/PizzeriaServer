@@ -7,4 +7,5 @@ import java.util.List;
 public interface DrinksService {
 
     List<Drinkables> getAll();
+    void deleteDrink(Long id);
 }

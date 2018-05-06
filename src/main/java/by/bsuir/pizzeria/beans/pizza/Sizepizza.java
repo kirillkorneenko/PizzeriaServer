@@ -1,16 +1,19 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import by.bsuir.pizzeria.beans.order.OrderPizza;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Sizepizza {
     private Long id;
     private String size;
     private Double coefficient;
-    private Collection<OrderPizzaSizepizza> orderPizzaSizepizzasById;
+
+    private List<OrderPizza> orderPizzasById;
 
     @Id
     @GeneratedValue
@@ -47,32 +50,25 @@ public class Sizepizza {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Sizepizza sizepizza = (Sizepizza) o;
-
-        if (id != null ? !id.equals(sizepizza.id) : sizepizza.id != null) return false;
-        if (size != null ? !size.equals(sizepizza.size) : sizepizza.size != null) return false;
-        if (coefficient != null ? !coefficient.equals(sizepizza.coefficient) : sizepizza.coefficient != null)
-            return false;
-
-        return true;
+        return Objects.equals(id, sizepizza.id) &&
+                Objects.equals(size, sizepizza.size) &&
+                Objects.equals(coefficient, sizepizza.coefficient);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (size != null ? size.hashCode() : 0);
-        result = 31 * result + (coefficient != null ? coefficient.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, size, coefficient);
     }
 
     @OneToMany(mappedBy = "sizepizzaByIdSizePizza")
     @JsonIgnore
-    public Collection<OrderPizzaSizepizza> getOrderPizzaSizepizzasById() {
-        return orderPizzaSizepizzasById;
+    public List<OrderPizza> getOrderPizzasById() {
+        return orderPizzasById;
     }
 
-    public void setOrderPizzaSizepizzasById(Collection<OrderPizzaSizepizza> orderPizzaSizepizzasById) {
-        this.orderPizzaSizepizzasById = orderPizzaSizepizzasById;
+    public void setOrderPizzasById(List<OrderPizza> orderPizzasById) {
+        this.orderPizzasById = orderPizzasById;
     }
 }

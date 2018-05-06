@@ -1,7 +1,10 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Ingredients {
@@ -10,6 +13,8 @@ public class Ingredients {
     private Double price;
     private Double caloricity;
     private Double weight;
+
+    private List<Pizza> pizzas;
 
     @Id
     @GeneratedValue
@@ -66,26 +71,30 @@ public class Ingredients {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Ingredients that = (Ingredients) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (price != null ? !price.equals(that.price) : that.price != null) return false;
-        if (caloricity != null ? !caloricity.equals(that.caloricity) : that.caloricity != null) return false;
-        if (weight != null ? !weight.equals(that.weight) : that.weight != null) return false;
-
-        return true;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(caloricity, that.caloricity) &&
+                Objects.equals(weight, that.weight);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (caloricity != null ? caloricity.hashCode() : 0);
-        result = 31 * result + (weight != null ? weight.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, price, caloricity, weight);
     }
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="pizza_ingredients",
+            joinColumns={@JoinColumn(name="idIngredients")},
+            inverseJoinColumns={@JoinColumn(name="idPizza")})
+    @JsonIgnore
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
+
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
 }

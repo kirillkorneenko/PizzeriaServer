@@ -1,6 +1,6 @@
 package by.bsuir.pizzeria.dao.pizza;
 
-import by.bsuir.pizzeria.beans.pizza.OrderPizza;
+import by.bsuir.pizzeria.beans.order.OrderPizza;
 import by.bsuir.pizzeria.dao.AbstractDao;
 import org.springframework.stereotype.Repository;
 

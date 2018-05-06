@@ -1,12 +1,21 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import by.bsuir.pizzeria.beans.order.OrderPizza;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Pastry {
     private Long id;
     private String kind;
+    private Double price;
+    private Double caloricity;
+
+    private List<OrderPizza> orderPizzasById;
 
     @Id
     @GeneratedValue
@@ -29,26 +38,50 @@ public class Pastry {
         this.kind = kind;
     }
 
+    @Basic
+    @Column(name = "price", nullable = false, precision = 0)
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    @Basic
+    @Column(name = "caloricity", nullable = false, precision = 0)
+    public Double getCaloricity() {
+        return caloricity;
+    }
+
+    public void setCaloricity(Double caloricity) {
+        this.caloricity = caloricity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Pastry pastry = (Pastry) o;
-
-        if (id != null ? !id.equals(pastry.id) : pastry.id != null) return false;
-        if (kind != null ? !kind.equals(pastry.kind) : pastry.kind != null) return false;
-
-        return true;
+        return Objects.equals(id, pastry.id) &&
+                Objects.equals(kind, pastry.kind) &&
+                Objects.equals(price, pastry.price) &&
+                Objects.equals(caloricity, pastry.caloricity);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (kind != null ? kind.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, kind, price, caloricity);
     }
 
+    @OneToMany(mappedBy = "pastryByIdPastry")
+    @JsonIgnore
+    public List<OrderPizza> getOrderPizzasById() {
+        return orderPizzasById;
+    }
 
-
+    public void setOrderPizzasById(List<OrderPizza> orderPizzasById) {
+        this.orderPizzasById = orderPizzasById;
+    }
 }

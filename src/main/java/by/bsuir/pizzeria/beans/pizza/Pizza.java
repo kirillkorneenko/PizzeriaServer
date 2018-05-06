@@ -1,5 +1,6 @@
 package by.bsuir.pizzeria.beans.pizza;
 
+import by.bsuir.pizzeria.beans.order.OrderPizza;
 import by.bsuir.pizzeria.beans.users.Reviews;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,11 +15,12 @@ public class Pizza {
     private String name;
     private Double caloricity;
     private Double price;
-    private String description;
     private String urlImg;
+    private String description;
+
     private Collection<OrderPizza> orderPizzasById;
-    private Collection<Reviews> reviewsById;
     private List<Ingredients> ingredients;
+    private Collection<Reviews> reviewsById;
 
     @Id
     @GeneratedValue
@@ -62,16 +64,6 @@ public class Pizza {
     }
 
     @Basic
-    @Column(name = "description", nullable = false, length = -1)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
     @Column(name = "urlImg", nullable = false, length = 50)
     public String getUrlImg() {
         return urlImg;
@@ -79,6 +71,16 @@ public class Pizza {
 
     public void setUrlImg(String urlImg) {
         this.urlImg = urlImg;
+    }
+
+    @Basic
+    @Column(name = "description", nullable = false, length = -1)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -90,14 +92,14 @@ public class Pizza {
                 Objects.equals(name, pizza.name) &&
                 Objects.equals(caloricity, pizza.caloricity) &&
                 Objects.equals(price, pizza.price) &&
-                Objects.equals(description, pizza.description) &&
-                Objects.equals(urlImg, pizza.urlImg);
+                Objects.equals(urlImg, pizza.urlImg) &&
+                Objects.equals(description, pizza.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, caloricity, price, description, urlImg);
+        return Objects.hash(id, name, caloricity, price, urlImg, description);
     }
 
     @OneToMany(mappedBy = "pizzaByIdPizza")
@@ -108,16 +110,6 @@ public class Pizza {
 
     public void setOrderPizzasById(Collection<OrderPizza> orderPizzasById) {
         this.orderPizzasById = orderPizzasById;
-    }
-
-    @OneToMany(mappedBy = "pizzaByIdPizza")
-    @JsonIgnore
-    public Collection<Reviews> getReviewsById() {
-        return reviewsById;
-    }
-
-    public void setReviewsById(Collection<Reviews> reviewsById) {
-        this.reviewsById = reviewsById;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -132,5 +124,13 @@ public class Pizza {
         this.ingredients = ingredients;
     }
 
+    @OneToMany(mappedBy = "pizzaByIdPizza")
+    @JsonIgnore
+    public Collection<Reviews> getReviewsById() {
+        return reviewsById;
+    }
 
+    public void setReviewsById(Collection<Reviews> reviewsById) {
+        this.reviewsById = reviewsById;
+    }
 }

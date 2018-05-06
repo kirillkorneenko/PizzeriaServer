@@ -1,5 +1,6 @@
 package by.bsuir.pizzeria.beans.additionalProducts;
 
+import by.bsuir.pizzeria.beans.order.Orders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -10,11 +11,11 @@ import java.util.Objects;
 public class Drinkables {
     private Long id;
     private String name;
-    private String description;
     private Double price;
     private String urlImg;
-    private List<DrinkablesSizedrinkables> drinkablesSizedrinkablesById;
-    private List<OrderDrinkables> orderDrinkablesById;
+    private String description;
+
+    private List<Orders> orders;
 
     @Id
     @GeneratedValue
@@ -38,16 +39,6 @@ public class Drinkables {
     }
 
     @Basic
-    @Column(name = "description", nullable = false, length = -1)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
     @Column(name = "price", nullable = false, precision = 0)
     public Double getPrice() {
         return price;
@@ -67,6 +58,15 @@ public class Drinkables {
         this.urlImg = urlImg;
     }
 
+    @Basic
+    @Column(name = "description", nullable = false, length = -1)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -75,34 +75,27 @@ public class Drinkables {
         Drinkables that = (Drinkables) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
                 Objects.equals(price, that.price) &&
-                Objects.equals(urlImg, that.urlImg);
+                Objects.equals(urlImg, that.urlImg) &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, price, urlImg);
+        return Objects.hash(id, name, price, urlImg, description);
     }
 
-    @OneToMany(mappedBy = "drinkablesByIdDrinkables")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="order_drinkables",
+            joinColumns={@JoinColumn(name="idDrinkables")},
+            inverseJoinColumns={@JoinColumn(name="idOrder")})
     @JsonIgnore
-    public List<DrinkablesSizedrinkables> getDrinkablesSizedrinkablesById() {
-        return drinkablesSizedrinkablesById;
+    public List<Orders> getOrders() {
+        return orders;
     }
 
-    public void setDrinkablesSizedrinkablesById(List<DrinkablesSizedrinkables> drinkablesSizedrinkablesById) {
-        this.drinkablesSizedrinkablesById = drinkablesSizedrinkablesById;
-    }
-
-    @OneToMany(mappedBy = "drinkablesByIdDrinkables")
-    @JsonIgnore
-    public List<OrderDrinkables> getOrderDrinkablesById() {
-        return orderDrinkablesById;
-    }
-
-    public void setOrderDrinkablesById(List<OrderDrinkables> orderDrinkablesById) {
-        this.orderDrinkablesById = orderDrinkablesById;
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
     }
 }

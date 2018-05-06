@@ -4,6 +4,7 @@ import by.bsuir.pizzeria.beans.pizza.Pizza;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Reviews {
@@ -11,6 +12,8 @@ public class Reviews {
     private Long idClient;
     private Long idPizza;
     private String text;
+
+    private User userByIdClient;
     private Pizza pizzaByIdPizza;
 
     @Id
@@ -58,24 +61,28 @@ public class Reviews {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Reviews reviews = (Reviews) o;
-
-        if (id != null ? !id.equals(reviews.id) : reviews.id != null) return false;
-        if (idClient != null ? !idClient.equals(reviews.idClient) : reviews.idClient != null) return false;
-        if (idPizza != null ? !idPizza.equals(reviews.idPizza) : reviews.idPizza != null) return false;
-        if (text != null ? !text.equals(reviews.text) : reviews.text != null) return false;
-
-        return true;
+        return Objects.equals(id, reviews.id) &&
+                Objects.equals(idClient, reviews.idClient) &&
+                Objects.equals(idPizza, reviews.idPizza) &&
+                Objects.equals(text, reviews.text);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (idClient != null ? idClient.hashCode() : 0);
-        result = 31 * result + (idPizza != null ? idPizza.hashCode() : 0);
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, idClient, idPizza, text);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "idClient", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
+    public User getUserByIdClient() {
+        return userByIdClient;
+    }
+
+    public void setUserByIdClient(User userByIdClient) {
+        this.userByIdClient = userByIdClient;
     }
 
     @ManyToOne

@@ -1,12 +1,11 @@
-package by.bsuir.pizzeria.webComponent.sauce;
+package by.bsuir.pizzeria.controllers.sauce;
 
 import by.bsuir.pizzeria.beans.additionalProducts.Sauce;
 import by.bsuir.pizzeria.services.sauce.SauceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,12 @@ public class SauceController {
     public ResponseEntity getSauceAll(){
         List<Sauce> list = sauceService.getAll();
         return ResponseEntity.ok().body(list);
+    }
+
+    @DeleteMapping("/sauce{id}")
+    public ResponseEntity deleteSauce(@PathVariable String id){
+        sauceService.deleteSauce(Long.parseLong(id));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Autowired

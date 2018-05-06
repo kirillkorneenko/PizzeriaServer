@@ -7,4 +7,5 @@ public interface UserDao {
     User getByKey(Long id);
     void update( User user);
     void delete( User user);
+    User getUserByPhone(String phone);
 }
