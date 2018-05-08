@@ -7,4 +7,5 @@ public interface VerificationTokenDao {
     Verificationtoken getByKey(Long id);
     void update( Verificationtoken verificationToken);
     void delete( Verificationtoken verificationToken);
+    Verificationtoken getByCode(String code);
 }

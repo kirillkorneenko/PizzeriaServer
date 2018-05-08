@@ -28,6 +28,12 @@ public class SauceController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PostMapping("/sauce")
+    public ResponseEntity addIngredient(@RequestBody Sauce sauce){
+        sauceService.addSauce(sauce);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Autowired
     public void setSauceService(SauceService sauceService) {
         this.sauceService = sauceService;

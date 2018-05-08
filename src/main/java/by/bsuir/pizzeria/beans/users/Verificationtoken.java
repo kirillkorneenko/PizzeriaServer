@@ -13,7 +13,6 @@ public class Verificationtoken {
     private User userById;
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;

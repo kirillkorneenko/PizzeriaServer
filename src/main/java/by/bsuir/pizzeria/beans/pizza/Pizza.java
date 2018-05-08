@@ -20,7 +20,6 @@ public class Pizza {
 
     private Collection<OrderPizza> orderPizzasById;
     private List<Ingredients> ingredients;
-    private Collection<Reviews> reviewsById;
 
     @Id
     @GeneratedValue
@@ -124,13 +123,4 @@ public class Pizza {
         this.ingredients = ingredients;
     }
 
-    @OneToMany(mappedBy = "pizzaByIdPizza")
-    @JsonIgnore
-    public Collection<Reviews> getReviewsById() {
-        return reviewsById;
-    }
-
-    public void setReviewsById(Collection<Reviews> reviewsById) {
-        this.reviewsById = reviewsById;
-    }
 }

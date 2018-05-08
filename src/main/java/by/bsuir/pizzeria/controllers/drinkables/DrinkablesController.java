@@ -27,6 +27,12 @@ public class DrinkablesController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PostMapping("/drink")
+    public ResponseEntity addIngredient(@RequestBody Drinkables drinkables){
+        drinksService.addDrink(drinkables);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Autowired
     public void setDrinksService(DrinksService drinksService) {
         this.drinksService = drinksService;

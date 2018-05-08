@@ -8,4 +8,5 @@ public interface UserDao {
     void update( User user);
     void delete( User user);
     User getUserByPhone(String phone);
+    User getUserByLogin(String login);
 }

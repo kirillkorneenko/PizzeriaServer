@@ -1,6 +1,9 @@
 package by.bsuir.pizzeria.controllers.pizza;
 
+import by.bsuir.pizzeria.beans.additionalProducts.Drinkables;
 import by.bsuir.pizzeria.beans.pizza.Pizza;
+import by.bsuir.pizzeria.dto.order.PizzaDto;
+import by.bsuir.pizzeria.dto.pizza.PizzaAddDto;
 import by.bsuir.pizzeria.services.pizza.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,12 @@ public class PizzaController {
     @DeleteMapping("/pizza{id}")
     public ResponseEntity deletePizza(@PathVariable String id){
         pizzaService.deletePizza(Long.parseLong(id));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/pizza")
+    public ResponseEntity addIngredient(@RequestBody PizzaAddDto pizzaAddDto){
+        pizzaService.addPizza(pizzaAddDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 

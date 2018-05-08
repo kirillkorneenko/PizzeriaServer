@@ -26,6 +26,11 @@ public class DrinksServiceImpl implements DrinksService {
         drinkablesDao.delete(drinkables);
     }
 
+    @Override
+    public void addDrink(Drinkables drinkables) {
+        drinkablesDao.persist(drinkables);
+    }
+
     @Autowired
     public void setDrinkablesDao(DrinkablesDao drinkablesDao) {
         this.drinkablesDao = drinkablesDao;

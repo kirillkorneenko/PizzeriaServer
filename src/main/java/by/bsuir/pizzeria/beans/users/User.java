@@ -20,7 +20,6 @@ public class User {
     private Long idRole;
 
     private List<Orders> ordersById;
-    private List<Reviews> reviewsById;
 
     private Role roleByIdRole;
     private Verificationtoken verificationtokenById;
@@ -148,19 +147,9 @@ public class User {
         this.ordersById = ordersById;
     }
 
-    @OneToMany(mappedBy = "userByIdClient")
-    @JsonIgnore
-    public List<Reviews> getReviewsById() {
-        return reviewsById;
-    }
-
-    public void setReviewsById(List<Reviews> reviewsById) {
-        this.reviewsById = reviewsById;
-    }
 
     @ManyToOne
     @JoinColumn(name = "idRole", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    @JsonIgnore
     public Role getRoleByIdRole() {
         return roleByIdRole;
     }

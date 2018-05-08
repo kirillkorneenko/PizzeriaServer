@@ -18,7 +18,7 @@ public class PastryController {
     private PastryService pastryService;
 
     @GetMapping("/pastry")
-    public ResponseEntity getDrinkablesAll(){
+    public ResponseEntity getPastryAll(){
         List<Pastry> list = pastryService.getAll();
         return ResponseEntity.ok().body(list);
     }

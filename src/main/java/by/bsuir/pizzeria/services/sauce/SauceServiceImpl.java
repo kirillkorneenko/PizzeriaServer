@@ -26,6 +26,11 @@ public class SauceServiceImpl implements SauceService {
         sauceDao.delete(sauce);
     }
 
+    @Override
+    public void addSauce(Sauce sauce) {
+        sauceDao.persist(sauce);
+    }
+
     @Autowired
     public void setSauceDao(SauceDao sauceDao) {
         this.sauceDao = sauceDao;

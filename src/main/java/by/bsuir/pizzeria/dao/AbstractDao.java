@@ -41,7 +41,6 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 
     public void delete(T entity) {
           getEntityManager().remove(getEntityManager().contains(entity) ? entity : getEntityManager().merge(entity));
-//        getEntityManager().remove(entity);
     }
 
     public CriteriaBuilder getCriteriaBuilder(){

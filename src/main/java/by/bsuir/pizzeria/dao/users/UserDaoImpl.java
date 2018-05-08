@@ -29,6 +29,24 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
         catch (NoResultException nre){
             return null;
             }
+    }
+
+    @Override
+    public User getUserByLogin (String login) {
+        try{
+            //**creating CriteriaBuilder**
+            CriteriaBuilder builder = getCriteriaBuilder();
+            CriteriaQuery<User> criteria = builder.createQuery(User.class);
+            Root<User> userRoot = criteria.from(User.class);
+            criteria.select(userRoot);
+
+            //**Adding where clause**
+            criteria.where(builder.equal(userRoot.get("login"), login));
+            return getEntityManager().createQuery(criteria).getSingleResult();
+        }
+        catch (NoResultException nre){
+            return null;
+        }
 
     }
 }
